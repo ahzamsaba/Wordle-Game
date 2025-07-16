@@ -76,7 +76,7 @@ export default function Wordle({ solution, player, handleRestart, onShowLeaderbo
       )}
 
       <Grid guesses={guesses} currentGuess={currentGuess} turn={turn} />
-      <Keypad usedKeys={usedKeys} />
+      <Keypad usedKeys={usedKeys} handleKeyup={handleKeyup} />
 
       {showModal && (
         <Modal
