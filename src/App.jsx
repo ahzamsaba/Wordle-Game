@@ -15,7 +15,7 @@ export default function App() {
       .then(data => {
         const random = data[Math.floor(Math.random() * data.length)]
         setSolution(random.word)
-        console.log(random.word);
+        // console.log(random.word);
       })
   }
 
