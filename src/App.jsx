@@ -10,7 +10,7 @@ export default function App() {
 
   // fn to fetch new solution
   const fetchNewSolution = () => {
-    fetch('http://localhost:3001/solutions')
+    fetch("/api/solutions")
       .then(res => res.json())
       .then(data => {
         const random = data[Math.floor(Math.random() * data.length)]
