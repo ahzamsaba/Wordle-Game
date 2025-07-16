@@ -8,6 +8,12 @@ export default function StartScreen({onStart, onShowLeaderboard}) {
             onStart(name.trim())
     }
 
+    const handleKeyPress = (e) => {
+        if (e.key === "Enter") {
+            handleStart();
+        }
+    };
+
     return (
         <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100 text-center p-4">
             <h1 className="text-3xl font-bold mb-4">Welcome to Wordle</h1>
@@ -16,6 +22,7 @@ export default function StartScreen({onStart, onShowLeaderboard}) {
                 placeholder="Enter your name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                onKeyDown={handleKeyPress}
                 className="mb-4 px-4 py-2 border rounded w-64 text-center"
             />
             <button

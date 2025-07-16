@@ -7,6 +7,8 @@ const useWordle = (solution) => {
     const [history, setHistory] = useState([])
     const [isCorrect, setIsCorrect] = useState(false)
     const [usedKeys, setUsedKeys] = useState({})
+    const [hint, setHint] = useState('')
+    const[isHint, setIsHint] = useState(false)
 
     // current Guess into array of {key, color}
     const formatGuess = () => {
@@ -103,13 +105,48 @@ const useWordle = (solution) => {
         }
     }
 
+    const useHint = () => {
+        if(!isHint){
+        let hintArray = Array(5).fill('_')
+        const greenLetters = []
+
+        // Collect green letters from previous guesses
+        guesses.forEach(guess => {
+            if (guess) {
+                guess.forEach((letterObj, i) => {
+                    if (letterObj.color === 'green') {
+                        hintArray[i] = letterObj.key.toUpperCase()
+                        greenLetters.push(letterObj.key)
+                    }
+                })
+            }
+        })
+
+        // Pick a random letter from solution not already green
+        const unrevealedIndices = solution
+            .split('')
+            .map((l, i) => ({ letter: l, index: i }))
+            .filter(({ letter, index }) => hintArray[index] === '_')
+
+        if (unrevealedIndices.length > 0) {
+            const random = unrevealedIndices[Math.floor(Math.random() * unrevealedIndices.length)]
+            hintArray[random.index] = random.letter.toUpperCase()
+        }
+
+        setHint(hintArray.join(''))}
+        setIsHint(true)
+    }
+
     return {
         turn,
         currentGuess,
         guesses,
         isCorrect,
         usedKeys,
-        handleKeyup
+        handleKeyup,
+        useHint,
+        hint,
+        isHint
     }
 }
 

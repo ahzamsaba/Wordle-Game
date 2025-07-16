@@ -12,7 +12,10 @@ export default function Wordle({ solution, player, handleRestart, onShowLeaderbo
     turn,
     isCorrect,
     usedKeys,
-    handleKeyup
+    handleKeyup,
+    useHint,
+    hint,
+    isHint
   } = useWordle(solution)
 
   const [showModal, setShowModal] = useState(false)
@@ -32,7 +35,7 @@ export default function Wordle({ solution, player, handleRestart, onShowLeaderbo
       const result = {
         player,
         won: isCorrect,
-        turn,
+        turn: isHint ? turn + 1 : turn,
         date: new Date().toLocaleString()
       }
       const prev = JSON.parse(localStorage.getItem('wordleScores')) || []
@@ -49,6 +52,29 @@ export default function Wordle({ solution, player, handleRestart, onShowLeaderbo
 
   return (
     <div className="max-w-xl mx-auto">
+
+      {/* Hint button */}
+      <div className="mb-4 text-right relative group">
+        <button
+          onClick={useHint}
+          className="text-blue-600 font-semibold hover:text-blue-800 transition"
+          disabled={isHint}
+        >
+          💡 Hint
+        </button>
+        {/* tooltip */}
+        <div className="absolute right-0 mt-2 bg-gray-700 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-70 transition-opacity pointer-events-none">
+          turn += 1
+        </div>
+      </div>
+
+      {/* Hint display */}
+      {hint && (
+        <div className="text-orange-600 font-mono font-bold text-left mt-2">
+          Hint: <span className="tracking-widest">{hint}</span>
+        </div>
+      )}
+
       <Grid guesses={guesses} currentGuess={currentGuess} turn={turn} />
       <Keypad usedKeys={usedKeys} />
 
@@ -59,6 +85,7 @@ export default function Wordle({ solution, player, handleRestart, onShowLeaderbo
           solution={solution}
           handleRestart={handleRestartGame}
           onShowLeaderboard={onShowLeaderboard}
+          isHint={isHint}
         />
       )}
     </div>

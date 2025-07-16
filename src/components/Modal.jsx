@@ -1,4 +1,7 @@
-export default function Modal({isCorrect, solution, turn, handleRestart, onShowLeaderboard}){
+import useWordle from "../hooks/useWordle"
+export default function Modal({isCorrect, solution, turn, handleRestart, onShowLeaderboard, isHint}){
+  if(isHint) turn += 1
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-10">
       <div className="bg-white rounded-lg p-8 shadow-lg text-center max-w-md">
